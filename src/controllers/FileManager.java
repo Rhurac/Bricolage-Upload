@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Vector;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,28 +23,28 @@ public class FileManager {
 	}
 	
 	// Recursively retrieves all children of parent File
-	private Vector<File> getAllFiles(File parent) {
-		File[] files = parent.listFiles();
-		for (File child : files) {
-			children.add(child);
-		}
-		for (File child : children) {
+	private void loadFiles(File parent) {
+		File[] flist = parent.listFiles();
+		for (File child : flist) {
 			if (child.isDirectory()) {
-				Vector<File> filesBelow = new Vector<File>();
-				filesBelow = getAllFiles(child);
-				for (File file : filesBelow) {
-					children.add(file);
-				}
+				loadFiles(child);
 			} else {
-				children.add(child);
+				this.children.add(child);
 			}
 		}
-		return children;
 	}
 	
 	// Returns the only allowable instance of FileManager
 	public static FileManager getInstance() {
 		return filemanager;
+	}
+	
+	protected File getParent() {
+		return this.parent;
+	}
+	
+	protected Vector<File> getChildren() {
+		return this.children;
 	}
 	
 	// Returns the file for the given file-path
@@ -55,22 +56,50 @@ public class FileManager {
 	// Populates file manager with the parent and all sub-directories
 	protected void initFileManager(File parent) {
 		this.parent = parent;
-		this.children = getAllFiles(parent);
+		this.loadFiles(parent);
 	}
 	
-	protected Vector<File> listFiles() {
-		return children;
+	protected Vector<String> fileToQStrings(File file) {
+		Vector<String> qstrings = new Vector<String>();
+		try {
+			FileInputStream fstream = new FileInputStream(file);
+			DataInputStream dstream = new DataInputStream(fstream);
+			BufferedReader in = new BufferedReader(new InputStreamReader(dstream));
+			String qstring = "";
+			String nextLine;
+			while ((nextLine = in.readLine()) != null) {
+				if (nextLine.isEmpty()) {
+					qstrings.add(qstring);
+					System.out.println(qstring);
+					qstring = "";
+				} else {
+					qstring += (nextLine + '\n');
+				}
+			}
+			fstream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return qstrings;
 	}
 	
-	protected String[] fileToQStrings(File file) throws IOException {
-		FileInputStream fstream = new FileInputStream(file);
-		DataInputStream dstream = new DataInputStream(fstream);
-		BufferedReader in = new BufferedReader(new InputStreamReader(dstream));
+	protected void printFile(File file) {
+		try {
+			FileInputStream fstream = new FileInputStream(file);
+			DataInputStream dstream = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(dstream));
+			String nextLine;
+			while ((nextLine = br.readLine()) != null) {
+				System.out.println(nextLine);
+			}
+			fstream.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		
-		while ((String nextLine = in.readLine())
-		
-		
-		fstream.close();
 	}
 	
 }
