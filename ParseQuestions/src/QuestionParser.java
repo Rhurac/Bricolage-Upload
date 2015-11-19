@@ -1,18 +1,30 @@
+
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.util.List;
 
 public class QuestionParser {
 	
-	public static void main(String[] args){
-		//change to pull from args
-		File parent = new File("U:\\Pictures\\Sample Pictures");
+	public static void main(String[] args) throws IOException{
+		File directory = new File("C:\\Users\\ispeer\\Documents\\TestDirectory");
+
+		File [] children = getFilesInDirectory(directory, ".txt");
+
+		for(File child: children)
+		{
+			if(!child.isDirectory())
+			{
+				List<String> lines; 
+				String path = child.getAbsolutePath();
+				lines = parseFile.getTxtFileAsStringList(path);
+				Debug.printListOfStrings(lines);
+			}
+		}
 		
-		File [] children = getDirectoryList(parent, ".jpg");
-		
-		displayFileList(children);
 	}
 	
-	public static File[] getDirectoryList(File parent, String filter)
+	public static File[] getFilesInDirectory(File parent, String filter)
 	{
 		File[] children = parent.listFiles(new FileFilter() {
 	        public boolean accept(File file) {
@@ -24,14 +36,13 @@ public class QuestionParser {
 		{
 			if (file.isDirectory())
 			{
-				children = combineArrays(children, getDirectoryList(file, filter));
+				children = combineArrays(children, getFilesInDirectory(file, filter));
 			}
 		}
-		
 		return children;
 	}
 	
-	//convert to generic type?
+	//Just re-inventing the wheel.
 	public static File[] combineArrays(File [] array1, File[] array2)
 	{
 		    File [] newArray = new File[array1.length + array2.length];
@@ -45,11 +56,6 @@ public class QuestionParser {
 		    return newArray;
 	}
 	
-	public static void displayFileList(File[] contents)
-	{
-		for ( File f : contents) {
-			System.out.println(f.getAbsolutePath());
-		}
-	}
+	
 }
 
