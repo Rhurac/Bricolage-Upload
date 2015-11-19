@@ -1,0 +1,18 @@
+Jumbled Sentences may be imported by starting the first line of formatting with “Type: JUM”. This is followed by the “Title” (which is optional), the question number, and question wording with the phrases to jumble in [tlp:square brackets].
+
+Type: JUM
+Title: Jumbled Sentence
+6. A [rose] by [any other name] would [smell] as [sweet].
+General feedback can be imported by placing the tilde “~” symbol in front of the feedback for a correct answer. The @ symbol can be used to indicate the feedback for incorrect answers. There must be at least one space to the right of the ~ and @ symbols and the text you want displayed for the feedback. The feedback must appear after the question wording and before any additional distracters. Additional distracters may be added below the question wording and optional feedback. Distracters must begin with a letter (a-t) followed by a period “.” or a parentheses “)”.
+
+Type: JUM
+Title: Jumbled quote
+6. [Dream] as if you'll [live] forever, live as if you'll [die] tomorrow.
+ 
+~ Correct. Good job.
+ 
+@ Incorrect. Dream as if you’ll live forever, live as if you’ll die tomorrow.
+ 
+a. Swim
+b. float
+c. sink

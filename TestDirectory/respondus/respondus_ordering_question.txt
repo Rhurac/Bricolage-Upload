@@ -1,0 +1,27 @@
+Ordering questions may be imported by starting the first line of formatting with “Type: ORD”. This is followed by the “Title” (which is optional), the question number, the question wording, and the answer choices which must be in the correct order.
+
+Type: ORD
+Title: Presidential Order
+5. Put the following presidents in order of     service?
+a. George Washington
+b. John Adams
+c. Thomas Jefferson
+d. James Madison
+e. James Monroe
+Each answer (which must be in the correct order) must begin with a letter (a-t) followed by a period “.” or a parentheses “)”.
+
+General feedback can be imported by placing the tilde “~” symbol in front of the feedback for a correct answer. The @ symbol can be used to indicate the feedback for incorrect answers. There must be at least one space to the right of the ~ and @ symbols and the text you want displayed for the feedback. The feedback must appear before the answer choices.
+
+Type: ORD
+Title: Olympic Order
+5. Put the following Summer Olympic host cities in chronological order of when they hosted the  Olympics?
+ 
+~ Correct. You know your Olympic history.
+ 
+@ Incorrect. Montreal, Moscow, Los Angeles, Seoul and Barcelona are the correct order.
+ 
+a. Montreal, Canada
+b. Moscow, Soviet Union
+c. Los Angeles, United States
+d. Seoul, South Korea
+e. Barcelona, Spain

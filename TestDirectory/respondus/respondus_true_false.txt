@@ -1,0 +1,13 @@
+Each answer must begin with a letter (A-T) followed by a period “.” or a parentheses “)”.
+The process of importing “true and false” questions is similar to that used for importing multiple choice questions. Both of the following examples are valid ways to format a true and false question for importing purposes.
+
+3) Albert Michelson determined the exact speed of light?
+ 
+*a) True
+b) False
+ 
+ 
+3) Albert Michelson determined the exact speed of light?
+ 
+*a. T
+b. F

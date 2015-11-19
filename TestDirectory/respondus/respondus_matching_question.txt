@@ -1,0 +1,12 @@
+The process of importing a “matching” question is similar to what is described above for importing multiple choice questions, but there are some key differences. The first line of formatting must begin with “Type: MT”. This is followed by the “title” (which is optional), the question number, and the question wording.
+
+Each answer (which consists of both parts of a correct match) must begin with a letter (a-t) followed by a period “.” or a parentheses “)”. The two parts of the match must be separated with an “=” symbol and there should not be any hard returns or blank lines within either parts of the answer.
+
+Type: MT
+Title: Scientific discoveries
+ 
+4) Match the correct name to the discovery or theory.
+a. Michelson-Morely = Speed of light
+b. Einstein = Theory of Relativity
+c. Marconi = radio waves
+Spaces before or after the “=” symbol are optional, but it is important that an answer only uses the = symbol for the purpose of separating the two parts of the match. If you plan to list correct answers for other questions at the bottom of the document, simply skip the number for all questions that are of the matching variety.

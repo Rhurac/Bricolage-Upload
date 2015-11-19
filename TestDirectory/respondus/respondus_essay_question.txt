@@ -1,0 +1,24 @@
+Each answer must begin with a letter (A-T) followed by a period “.” or a parentheses “)”.
+The logic for importing essay questions is similar to what is described above for Multiple Choice and True & False questions. The primary difference is that the first line of formatting must begin with “Type: E”. This is followed by the “Title” (which is optional), the question number, and the question wording.
+
+Type: E
+Title: Michelson-Morely experiment
+ 
+4) How is the Michelson-Morely experiment related to Albert Einstein’s theory of relativity?
+ 
+If you are importing an essay question into an Exam file, you can supply an answer two different ways. First, you may provide an answer immediately after the question wording, beginning the answer with “a.” or “a)” (without the quotes).
+ 
+Type: E
+Title: Michelson-Morely experiment
+ 
+4) How is the Michelson-Morely experiment related to Albert Einstein’s theory of relativity?
+ 
+a) In 1887, Albert Michelson and Edward Morely carried out experiments to detect the change in speed of light due to ether wind when the Earth moved around the sun. The result was negative. They found the speed of light is always the same regardless of Earth's motion around the sun. Scientists were puzzled with this negative result, and they didn't know how to explain it. Albert Einstein came up with the answer in his famous second postulate in theory of relativity: that the speed of light (in vacuum) is always constant and absolute, regardless of its source's motion and observer's movement.
+The second way to supply an answer for an essay question is to place it in a list of correct answers at the end of the file. As described above with multiple choice questions, the list must begin with the heading “Answers:” and must be positioned at the end of the file. The answer to an essay question should begin with the corresponding question number, followed by either a period “.” or a parentheses “)”. This is then followed by a space and then the answer.
+
+Answers:
+1. A
+2. C
+3. B
+4. In 1887, Albert Michelson and Edward Morely carried out experiments to detect the change in speed of light due to ether wind when the Earth moved around the sun. The result was negative. They found the speed of light is always the same regardless of Earth's motion around the sun. Scientists were puzzled with this negative result, and they didn't know how to explain it. Albert Einstein came up with the answer in his famous second postulate in theory of relativity: that the speed of light (in vacuum) is always constant and absolute, regardless of its source's motion and observer's movement.
+5. B

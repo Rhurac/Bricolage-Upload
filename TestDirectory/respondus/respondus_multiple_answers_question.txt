@@ -1,0 +1,22 @@
+The logic for importing questions that have multiple answers is similar to what is described above for importing multiple choice questions. (Multiple Answers questions are, essentially, multiple choice questions in which more than one correct answer can – and generally should – be selected by the student). The primary difference is that the first line of the formatting must begin with “Type: MA”. This is followed by the “Title” (which is optional), the question number, and the question wording. Correct answers are designated with an asterisk.
+
+Type: MA
+3) Which of the following individuals are credited with determining the exact speed of light?
+ 
+a. Albert Einstein
+*b. Albert Michelson
+c. Thomas Edison
+*d. Edward Williams Morley
+To include a “title” or “feedback” with the Multiple Answers question, follow the same formatting rules described above for multiple choice questions. For instance,
+
+Title: Speed of Light
+3) Which of the following individuals are credited with determining the exact speed of light?
+ 
+~ Yes. Albert Michelson and Edward Williams Morley collaborated on a series of experiments that eventually led to the exact determination of the speed of light.
+ 
+@ No. Albert Michelson and Edward Williams Morley collaborated on a series of experiments that eventually led to the exact determination of the speed of light.
+ 
+a. Albert Einstein
+*b. Albert Michelson
+c. Thomas Edison
+*d. Edward Williams Morley

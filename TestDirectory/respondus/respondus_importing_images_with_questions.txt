@@ -1,0 +1,11 @@
+Images embedded in MS Word files will import automatically. However, it is possible to import images with rich-text or txt files using an alternate method. First, be sure that the images in gif, jpg, or jpeg format and are contained in a separate folder. Then place the following tag at each place where an image should appear: [ img: “filename.jpg” ] . The word “filename.jpg” should be replaced with the actual file name.
+
+3) The interferometer, shown here [img: “interferometer.jpg”], was used by which of the following scientists.
+a. Albert Einstein
+*b. Albert Michelson
+c. Thomas Edison
+d. Vladimir Zworykin
+To include alternative text for ADA-compliant screen readers, place the desired text in a second set of quotes immediately following the quotes that contain the file name:
+
+[img: “interferometer.jpg” “Picture of an interferometer”].
+All images that are being imported must be placed in a single folder. During the import process, the location of the image folder must be specified in the first step. After the import is complete, the images will appear inline with the question text.

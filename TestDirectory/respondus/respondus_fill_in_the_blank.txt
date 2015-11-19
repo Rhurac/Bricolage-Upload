@@ -1,0 +1,25 @@
+Fill in the blank questions may be imported by starting the first line of formatting with “Type: F”. This is followed by the “Title” (which is optional), the question number, and the question wording.
+
+Type: F
+Title: Who invented television?
+5. Who is known as the "father of television”?
+Respondus allows only one correct answer per question, but it does permit you to enter multiple forms of that answer.
+
+Type: F
+Title: Who invented television?
+5. Who is known as the "father of television"?
+ 
+a. Zworykin
+b. Vladimir Zworykin
+c. Vladimir Kosma Zworykin
+Answers can also be placed at the end of the file, using a format similar to multiple choice questions. The only difference is that you can enter multiple forms of an answer by repeating the question number.
+
+Answers:
+1. A
+2. C
+3. B
+4. C
+5. Zworykin
+5. Vladimir Zworykin
+5. Vladimir Kosma Zworykin
+6. B
