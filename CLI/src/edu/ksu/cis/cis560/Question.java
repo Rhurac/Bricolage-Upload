@@ -2,16 +2,28 @@ package edu.ksu.cis.cis560;
 
 import java.util.ArrayList;
 
-public abstract class Question {
+public class Question {
 
-    private String _description = "";
-    private ArrayList<QuestionOption> _options = new ArrayList<>();
+    protected int _number = 0;
+    protected String _description = "";
+    protected ArrayList<QuestionOption> _options = new ArrayList<>();
+    protected ArrayList<String> _images = new ArrayList<>();
 
     public Question() {}
 
-    public Question(String description, ArrayList<QuestionOption> options) {
+    public Question(int number, String description) {
+        _number = number;
+        _description = description;
+    }
+
+    public Question(int number, String description, ArrayList<QuestionOption> options) {
+        _number = number;
         _description = description;
         _options = options;
+    }
+
+    public int getNumber() {
+        return _number;
     }
 
     public String getDescription() {
@@ -22,15 +34,11 @@ public abstract class Question {
         return _options;
     }
 
-    public void setDescription(String description) {
-        _description = description;
+    public void addImage(String name) {
+        this._images.add(name);
     }
 
-    public void setOptions(ArrayList<QuestionOption> options) {
-        _options = options;
-    }
-
-    public void addOption(QuestionOption option) {
-        _options.add(option);
+    public ArrayList<String> getImages() {
+        return _images;
     }
 }
