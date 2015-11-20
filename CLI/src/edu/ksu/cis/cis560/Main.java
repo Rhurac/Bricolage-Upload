@@ -52,8 +52,8 @@ public class Main {
             throw new Exception(String.format("Invalid file path provided: '{0}'", filePath));
         }
 
-        if(!filePath.contains(".txt")) {
-            throw new Exception("Provided filePath does not contain a .txt file extension");
+        if(!filePath.contains(".rsp")) {
+            throw new Exception("Provided filePath does not contain a .rsp file extension");
         }
 
         File tempFile = new File(filePath).getCanonicalFile();
