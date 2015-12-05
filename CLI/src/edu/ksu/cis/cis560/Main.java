@@ -11,46 +11,49 @@ import java.sql.DriverManager;
 
 public class Main {
 
-    private static ArrayList<String> _fileContents = null;
-
     public static void main(String[] args) {
-        //ParseFlags(args);
-        //ReadFileContents(_fileContents);
-        LynxConnector lc = new LynxConnector();
-        Question q1 = new Question(1, "This is a general question");
-        MultiChoiceQuestion q2 = new MultiChoiceQuestion(2, "This is a title quesiton");
-        q2.addOption(new QuestionOption("Added description 1", false));
-        q2.addOption(new QuestionOption("Added description 2", true));
-        lc.uploadQuestion(q1);
-        lc.uploadQuestion(q2);
-
-        TrueFalseQuestion tfq = new TrueFalseQuestion(3, "first true false question", false);
-        lc.uploadQuestion(tfq);
-    }
-
-    private static void ReadFileContents(ArrayList<String> fileContents) {
-        for(String line : fileContents) {
-            System.out.println(line);
-        }
+            //String fileName = RetrieveFileText(args[0]);
+            String fileName = "src/edu/ksu/cis/cis560/Tests";
+            LynxConnector lc = new LynxConnector();
+            ProcessFiles(fileName, lc);
     }
 
     /**
-     * Pareses CLI arguments for supported flags
+     * Recursively processes directories for exam files, sends every file to be interpreted
+     * into a collection of question objects, and finally uploads this collection to the
+     * database.
      */
-    private static void ParseFlags(String[] args) throws Exception {
-        for(String flag : args) {
-            if(flag.contains("help")) {
-                ShowHelpText();
-                return;
+    private static void ProcessFiles(String FileName, LynxConnector Database){
+        try {
+            File directory = new File(FileName);
+            if (directory.isDirectory()) {
+                String[] fileList = directory.list();
+                for (String x : fileList) {
+                    ProcessFiles(FileName+"/"+x, Database);
+                }
+            } else {
+                ArrayList<String> fileContents = RetrieveFileText(FileName);
+                String[] fileTypeTokens = FileName.split("\\.");
+                String fileType = fileTypeTokens[fileTypeTokens.length-1];
+                ArrayList<Question> quiz = ReadFileContents(fileContents, fileType);
+                for(Question q : quiz) {
+                    Database.uploadQuestion(q);
+                }
             }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        for(String flag : args) {
-            if(flag.contains("--file")) {
-                String filePath = flag.replace("--file=", "");
-                _fileContents = RetrieveFileText(filePath);
-            }
+    }
+
+    private static ArrayList<Question> ReadFileContents(ArrayList<String> fileContents, String fileType) {
+        System.out.println("Filetype: " + fileType);
+        for(String line : fileContents) {
+            System.out.println(line);
         }
+        return new ArrayList<Question>();
     }
 
     /**
@@ -61,7 +64,7 @@ public class Main {
             throw new Exception(String.format("Invalid file path provided: '{0}'", filePath));
         }
 
-        if(!filePath.contains(".rsp")) {
+        if(!filePath.contains(".rsp") && !filePath.contains(".gift")) {
             throw new Exception("Provided filePath does not contain a .rsp file extension");
         }
 
@@ -84,16 +87,8 @@ public class Main {
         return outputList;
     }
 
-    /**
-     * Prints help text for --help flag inclusion
-     */
-    private static void ShowHelpText() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Welcome to the Bricolage File Importer! All flags are listed below:\n\n");
-        builder.append("\t--file=./RelativeUrl.txt [REQUIRED]\t\tThe file flag is required and is the relative path to" +
-                "an input file to import.\n");
-        builder.append("\t--help\t\t\t\t\t\t\t\t\tThe help flag shows all required and optional CLI flags\n");
-        String outputString = builder.toString();
-        System.out.println(outputString);
+    //For Demoing Purposes
+    private static void DemoQuestion()
+    {
     }
 }
