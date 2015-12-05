@@ -1,5 +1,8 @@
 package edu.ksu.cis.cis560;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import edu.ksu.cis.cis560.Questions.*;
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -30,7 +33,7 @@ public class LynxConnector {
         try {
             Statement stmt = _connection.createStatement();
 
-            String query = "SELECT create_question({0},{1},{2},{3});";
+            String query = "SELECT create_question({0},{1},{2},{3},{4},{5});";
 
             // Question number
             query = query.replace("{0}", "'" + question.getNumber() + "'");
@@ -46,8 +49,17 @@ public class LynxConnector {
             query = query.replace("{2}", "'" + question.getDescription() + "'");
 
             // Question type
-            //TODO: include type checking.  not default to 1.
-            query = query.replace("{3}", "1");
+            int questionType = findQuestionType(question);
+            query = query.replace("{3}", "" + questionType);
+
+            // Question feedback
+            if(question instanceof FeedbackQuestion) {
+                query = query.replace("{4}", "'" + ((FeedbackQuestion)question).getCorrectFeedback() + "'");
+                query = query.replace("{5}", "'" + ((FeedbackQuestion)question).getIncorrectFeedback() + "'");
+            } else {
+                query = query.replace("{4}", "null");
+                query = query.replace("{5}", "null");
+            }
 
 
             ResultSet rs = stmt.executeQuery(query);
@@ -64,8 +76,39 @@ public class LynxConnector {
         System.out.println("Uploaded");
     }
 
-    private void uploadOptions(ArrayList<QuestionOption> options, int associatedQuestionId) {
+    private int findQuestionType(Question question) {
+        if(question instanceof MultiChoiceQuestion) {
+            return 2;
+        }
 
+        if(question instanceof TrueFalseQuestion) {
+            return 3;
+        }
+
+        if(question instanceof EssayQuestion) {
+            return 4;
+        }
+
+        if(question instanceof FillInTheBlankQuestion) {
+            return 5;
+        }
+
+        if(question instanceof MatchingQuestion) {
+            return 6;
+        }
+
+        if(question instanceof JumbledQuote) {
+            return 8;
+        }
+
+        if(question instanceof MultipleFillInBlanksQuestion) {
+            return 9;
+        }
+
+        return 1;
+    }
+
+    private void uploadOptions(ArrayList<QuestionOption> options, int associatedQuestionId) {
         for(QuestionOption option : options) {
             try {
                 Statement stmt = _connection.createStatement();
@@ -86,7 +129,5 @@ public class LynxConnector {
                 e.printStackTrace();
             }
         }
-
-
     }
 }

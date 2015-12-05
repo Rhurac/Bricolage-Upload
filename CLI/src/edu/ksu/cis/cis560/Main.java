@@ -1,7 +1,7 @@
 package edu.ksu.cis.cis560;
 
-import edu.ksu.cis.cis560.Questions.MultiChoiceQuestion;
-import edu.ksu.cis.cis560.Questions.TrueFalseQuestion;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import edu.ksu.cis.cis560.Questions.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,15 +17,35 @@ public class Main {
         //ParseFlags(args);
         //ReadFileContents(_fileContents);
         LynxConnector lc = new LynxConnector();
-        Question q1 = new Question(1, "This is a general question");
-        MultiChoiceQuestion q2 = new MultiChoiceQuestion(2, "This is a title quesiton");
-        q2.addOption(new QuestionOption("Added description 1", false));
-        q2.addOption(new QuestionOption("Added description 2", true));
-        lc.uploadQuestion(q1);
-        lc.uploadQuestion(q2);
+        //Question q1 = new Question(1, "This is a general question");
+//        MultiChoiceQuestion q2 = new MultiChoiceQuestion(2, "This is a title question");
+//        q2.addOption(new QuestionOption("Added description 1", false));
+//        q2.addOption(new QuestionOption("Added description 2", true));
+//        lc.uploadQuestion(q2);
+//
+//        TrueFalseQuestion tfq = new TrueFalseQuestion(3, "first true false question", false);
+//        lc.uploadQuestion(tfq);
+//
+//        EssayQuestion eq = new EssayQuestion(4, "Essay question title", "essay question description", "Here is the answer");
+//        lc.uploadQuestion(eq);
+//
+//        FillInTheBlankQuestion fibq = new FillInTheBlankQuestion(5, "Fill in the blank", "longgg description");
+//        fibq.addAnswer("temp 1");
+//        fibq.addAnswer("temp 2");
+//        fibq.addAnswer("temp 3");
+//        lc.uploadQuestion(fibq);
+//
+//        MatchingQuestion fb = new MatchingQuestion(8, "descripttion", "title", "super correct", "way wrong");
+//        fb.addOption(new QuestionOption("a. Michelson-Morely = Speed of light", true));
+//        fb.addOption(new QuestionOption("a. Michelson-Morely = Speed of light", false));
+//        fb.addOption(new QuestionOption("a. Michelson-Morely = Speed of light", true));
+//        lc.uploadQuestion(fb);
 
-        TrueFalseQuestion tfq = new TrueFalseQuestion(3, "first true false question", false);
-        lc.uploadQuestion(tfq);
+            OrderingQuestion oq = new OrderingQuestion(4, "ordering title", "description", "correct feed", "bad feed");
+        oq.addOption(new QuestionOption("order 1", true));
+        oq.addOption(new QuestionOption("order 2", true));
+        oq.addOption(new QuestionOption("order 3", true));
+        lc.uploadQuestion(oq);
     }
 
     private static void ReadFileContents(ArrayList<String> fileContents) {
