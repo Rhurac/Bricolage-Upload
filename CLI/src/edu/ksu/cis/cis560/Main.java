@@ -1,31 +1,31 @@
 package edu.ksu.cis.cis560;
 
-import edu.ksu.cis.cis560.Questions.EssayQuestion;
-import edu.ksu.cis.cis560.Questions.JumbledQuote;
 import edu.ksu.cis.cis560.Questions.MultiChoiceQuestion;
 import edu.ksu.cis.cis560.Questions.TrueFalseQuestion;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class Main {
 
     private static ArrayList<String> _fileContents = null;
 
     public static void main(String[] args) {
-        try {
-            ParseFlags(args);
-            ReadFileContents(_fileContents);
+        //ParseFlags(args);
+        //ReadFileContents(_fileContents);
+        LynxConnector lc = new LynxConnector();
+        Question q1 = new Question(1, "This is a general question");
+        MultiChoiceQuestion q2 = new MultiChoiceQuestion(2, "This is a title quesiton");
+        q2.addOption(new QuestionOption("Added description 1", false));
+        q2.addOption(new QuestionOption("Added description 2", true));
+        lc.uploadQuestion(q1);
+        lc.uploadQuestion(q2);
 
-
-            //TODO: Implement here
-
-        } catch (Exception e) {
-            //e.printStackTrace();
-            System.out.println("An error has occurred:");
-            System.out.println("\t\t" + e.toString());
-        }
+        TrueFalseQuestion tfq = new TrueFalseQuestion(3, "first true false question", false);
+        lc.uploadQuestion(tfq);
     }
 
     private static void ReadFileContents(ArrayList<String> fileContents) {

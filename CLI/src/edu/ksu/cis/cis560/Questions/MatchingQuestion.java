@@ -7,10 +7,10 @@ public class MatchingQuestion extends TitledQuestion {
     private String _correctFeedback = "";
     private String _incorrectFeedback = "";
 
-    public MatchingQuestion(int number, String description, String title, String correctFeedback, String incorrentFeedback) {
+    public MatchingQuestion(int number, String description, String title, String correctFeedback, String incorrectFeedback) {
         super(number, description, title);
         this._correctFeedback = correctFeedback;
-        this._incorrectFeedback = incorrentFeedback;
+        this._incorrectFeedback = incorrectFeedback;
     }
 
     public void addOption(QuestionOption option) {
