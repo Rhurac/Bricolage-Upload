@@ -16,37 +16,31 @@ public class Main {
     public static void main(String[] args) {
         //ParseFlags(args);
         //ReadFileContents(_fileContents);
-        LynxConnector lc = new LynxConnector();
-        //Question q1 = new Question(1, "This is a general question");
-//        MultiChoiceQuestion q2 = new MultiChoiceQuestion(2, "This is a title question");
-//        q2.addOption(new QuestionOption("Added description 1", false));
-//        q2.addOption(new QuestionOption("Added description 2", true));
-//        lc.uploadQuestion(q2);
-//
-//        TrueFalseQuestion tfq = new TrueFalseQuestion(3, "first true false question", false);
-//        lc.uploadQuestion(tfq);
-//
-//        EssayQuestion eq = new EssayQuestion(4, "Essay question title", "essay question description", "Here is the answer");
-//        lc.uploadQuestion(eq);
-//
-//        FillInTheBlankQuestion fibq = new FillInTheBlankQuestion(5, "Fill in the blank", "longgg description");
-//        fibq.addAnswer("temp 1");
-//        fibq.addAnswer("temp 2");
-//        fibq.addAnswer("temp 3");
-//        lc.uploadQuestion(fibq);
-//
-//        MatchingQuestion fb = new MatchingQuestion(8, "descripttion", "title", "super correct", "way wrong");
-//        fb.addOption(new QuestionOption("a. Michelson-Morely = Speed of light", true));
-//        fb.addOption(new QuestionOption("a. Michelson-Morely = Speed of light", false));
-//        fb.addOption(new QuestionOption("a. Michelson-Morely = Speed of light", true));
-//        lc.uploadQuestion(fb);
-
-            OrderingQuestion oq = new OrderingQuestion(4, "ordering title", "description", "correct feed", "bad feed");
-        oq.addOption(new QuestionOption("order 1", true));
-        oq.addOption(new QuestionOption("order 2", true));
-        oq.addOption(new QuestionOption("order 3", true));
-        lc.uploadQuestion(oq);
+        ArrayList<String> fileContents = new ArrayList<String>();
+        fileContents.add("3) Who determined the exact speed of light?");
+        fileContents.add("a. Albert Einstein");
+        fileContents.add("*b) Albert Michelson");
+        fileContents.add("c) Thomas Edison");
+        fileContents.add("d. Guglielmo Marconi");
+        fileContents.add(" ");
+        fileContents.add("Type: MT");
+        fileContents.add("Title: Scientific discoveries");
+        fileContents.add(" ");
+        fileContents.add("4) Match the correct name to the discovery or theory.");
+        fileContents.add("a. Michelson-Morely = Speed of light");
+        fileContents.add("b. Einstein = Theory of Relativity");
+        fileContents.add("c. Marconi = radio waves");
+        fileContents.add("");
+        fileContents.add("Type: E");
+        fileContents.add("Title: Michelson-Morely experiment");
+        fileContents.add(        " ");
+        fileContents.add("4) How is the Michelson-Morely experiment related to Albert Einstein’s theory of relativity?");
+        fileContents.add(" ");
+        fileContents.add("If you are importing an essay question into an Exam file, you can supply an answer two different ways. First, you may provide an answer immediately after the question wording, beginning the answer with “a.” or “a)” (without the quotes).");
+        QuestionSeperator qs = new QuestionSeperator();
+        qs.seperateRespondusQuestionsByType(fileContents);
     }
+
 
     private static void ReadFileContents(ArrayList<String> fileContents) {
         for(String line : fileContents) {
@@ -109,10 +103,10 @@ public class Main {
      */
     private static void ShowHelpText() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Welcome to the Bricolage File Importer! All flags are listed below:\n\n");
+        builder.append("Welcome to the Bricolage File Importer! All flags are listed below:");
         builder.append("\t--file=./RelativeUrl.txt [REQUIRED]\t\tThe file flag is required and is the relative path to" +
-                "an input file to import.\n");
-        builder.append("\t--help\t\t\t\t\t\t\t\t\tThe help flag shows all required and optional CLI flags\n");
+                "an input file to import.");
+        builder.append("\t--help\t\t\t\t\t\t\t\t\tThe help flag shows all required and optional CLI flags");
         String outputString = builder.toString();
         System.out.println(outputString);
     }
