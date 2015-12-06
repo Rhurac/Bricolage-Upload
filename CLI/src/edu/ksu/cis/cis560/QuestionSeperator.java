@@ -9,25 +9,25 @@ public class QuestionSeperator {
 
         ArrayList<ArrayList<String>> questionList = new ArrayList<ArrayList<String>>();
 
-        for(int i = 0; i<fileContents.size();)
+        for(int lineNumber = 0; lineNumber<fileContents.size();)
         {
-            if(fileContents.get(i).contains("Type:") || fileContents.get(i).matches("^\\d{0,3}[\\)\\.].*"))
+            if(fileContents.get(lineNumber).contains("Type:") || isQuestionNumber(fileContents, lineNumber))
             {
                 ArrayList<String> questionContents = new ArrayList<String>();
-                questionContents.add(fileContents.get(i));
-                i++;
+                questionContents.add(fileContents.get(lineNumber));
+                lineNumber++;
 
                 boolean questionNumberHasOccured = false;
 
-                while(i<fileContents.size() && !fileContents.get(i).contains("Type:"))
+                while(lineNumber<fileContents.size() && !fileContents.get(lineNumber).contains("Type:"))
                 {
-                    if(questionNumberHasOccured && fileContents.get(i).matches("^\\d{0,3}[\\)\\.].*"))
+                    if(questionNumberHasOccured && isQuestionNumber(fileContents, lineNumber))
                         break;
-                    else if(!questionNumberHasOccured && fileContents.get(i).matches("^\\d{0,3}[\\)\\.].*"))
+                    else if(!questionNumberHasOccured && isQuestionNumber(fileContents, lineNumber))
                         questionNumberHasOccured = true;
 
-                    questionContents.add(fileContents.get(i));
-                    i++;
+                    questionContents.add(fileContents.get(lineNumber));
+                    lineNumber++;
                 }
 
                 questionList.add(questionContents);
@@ -35,5 +35,9 @@ public class QuestionSeperator {
         }
 
         return questionList;
+    }
+
+    private boolean isQuestionNumber(ArrayList<String> fileContents, int i) {
+        return fileContents.get(i).matches("^\\d{0,3}[\\)\\.].*");
     }
 }
