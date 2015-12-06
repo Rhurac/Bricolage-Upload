@@ -1,9 +1,11 @@
 package edu.ksu.cis.cis560;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import com.sun.xml.internal.ws.resources.TubelineassemblyMessages;
 import edu.ksu.cis.cis560.Questions.*;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.Connection;
@@ -12,10 +14,39 @@ import java.sql.DriverManager;
 public class Main {
 
     public static void main(String[] args) {
-            //String fileName = RetrieveFileText(args[0]);
-            String fileName = "src/edu/ksu/cis/cis560/Tests";
-            LynxConnector lc = new LynxConnector();
-            ProcessFiles(fileName, lc);
+        //String fileName = RetrieveFileText(args[0]);
+        String fileName = "src/edu/ksu/cis/cis560/Tests";
+        LynxConnector lc = new LynxConnector();
+        //ProcessFiles(fileName, lc);
+
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("3) Who determined the exact speed of light?");
+//        lines.add("a. Albert Einstein");
+//        lines.add("*b) Albert Michelson");
+//        lines.add("c) Thomas Edison");
+//        lines.add("d. Guglielmo Marconi");
+//
+//        FileFormatter ff = new FileFormatter();
+//        MultiChoiceQuestion q = ff.formatMultiChoiceQuestion(lines);
+//
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("3) Albert Michelson determined the exact speed of light?");
+//        lines.add("");
+//        lines.add("*a) True");
+//        lines.add("b) False");
+//
+//        FileFormatter ff = new FileFormatter();
+//        TrueFalseQuestion q = ff.formatTrueFalseQuestion(lines);
+
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("Type: E");
+//        lines.add("Title: Michelson-Morely experiment");
+//        lines.add("4) How is the Michelson-Morely experiment related to Albert Einstein’s theory of relativity?");
+//        lines.add("");
+//        lines.add("If you are importing an essay question into an Exam file, you can supply an answer two different ways. First, you may provide an answer immediately after the question wording, beginning the answer with “a.” or “a)” (without the quotes).");
+//
+//        FileFormatter ff = new FileFormatter();
+//        EssayQuestion q = ff.formatEssayQuestion(lines);
     }
 
     /**
