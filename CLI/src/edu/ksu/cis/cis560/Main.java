@@ -1,9 +1,11 @@
 package edu.ksu.cis.cis560;
 
-import edu.ksu.cis.cis560.Questions.MultiChoiceQuestion;
-import edu.ksu.cis.cis560.Questions.TrueFalseQuestion;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import com.sun.xml.internal.ws.resources.TubelineassemblyMessages;
+import edu.ksu.cis.cis560.Questions.*;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.Connection;
@@ -11,46 +13,104 @@ import java.sql.DriverManager;
 
 public class Main {
 
-    private static ArrayList<String> _fileContents = null;
-
     public static void main(String[] args) {
-        //ParseFlags(args);
-        //ReadFileContents(_fileContents);
+        //String fileName = RetrieveFileText(args[0]);
+        String fileName = "src/edu/ksu/cis/cis560/Tests";
         LynxConnector lc = new LynxConnector();
-        Question q1 = new Question(1, "This is a general question");
-        MultiChoiceQuestion q2 = new MultiChoiceQuestion(2, "This is a title quesiton");
-        q2.addOption(new QuestionOption("Added description 1", false));
-        q2.addOption(new QuestionOption("Added description 2", true));
-        lc.uploadQuestion(q1);
-        lc.uploadQuestion(q2);
+        //ProcessFiles(fileName, lc);
 
-        TrueFalseQuestion tfq = new TrueFalseQuestion(3, "first true false question", false);
-        lc.uploadQuestion(tfq);
-    }
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("3) Who determined the exact speed of light?");
+//        lines.add("a. Albert Einstein");
+//        lines.add("*b) Albert Michelson");
+//        lines.add("c) Thomas Edison");
+//        lines.add("d. Guglielmo Marconi");
+//
+//        FileFormatter ff = new FileFormatter();
+//        MultiChoiceQuestion q = ff.formatMultiChoiceQuestion(lines);
+//
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("3) Albert Michelson determined the exact speed of light?");
+//        lines.add("");
+//        lines.add("*a) True");
+//        lines.add("b) False");
+//
+//        FileFormatter ff = new FileFormatter();
+//        TrueFalseQuestion q = ff.formatTrueFalseQuestion(lines);
 
-    private static void ReadFileContents(ArrayList<String> fileContents) {
-        for(String line : fileContents) {
-            System.out.println(line);
-        }
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("Type: E");
+//        lines.add("Title: Michelson-Morely experiment");
+//        lines.add("4) How is the Michelson-Morely experiment related to Albert Einstein’s theory of relativity?");
+//        lines.add("");
+//        lines.add("If you are importing an essay question into an Exam file, you can supply an answer two different ways. First, you may provide an answer immediately after the question wording, beginning the answer with “a.” or “a)” (without the quotes).");
+//
+//        FileFormatter ff = new FileFormatter();
+//        EssayQuestion q = ff.formatEssayQuestion(lines);
+
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("Type: F");
+//        lines.add("Title: Who invented television?");
+//        lines.add("5. Who is known as the \"father of television”?");
+//        lines.add("");
+//        lines.add("a. Zworykin");
+//        lines.add("b. Vladimir Zworykin");
+//        lines.add("c. Vladimir Kosma Zworykin");
+//
+//        FileFormatter ff = new FileFormatter();
+//        FillInTheBlankQuestion q = ff.formatFillInTheBlankQuestion(lines);
+//        lc.uploadQuestion(q);
+
+        ArrayList<String> lines = new ArrayList<>();
+        lines.add("Type: FMB");
+        lines.add("Title: Multiple blanks");
+        lines.add("5. A [rose, red flower] by any other [name] would smell as [sweet, good].");
+        lines.add("");
+        lines.add("~ Correct. Well done.");
+        lines.add("");
+        lines.add("@ Incorrect. A rose by any other name would smell as sweet – or – A red flower by any other name would smell as good.");
+
+        FileFormatter ff = new FileFormatter();
+        MultipleFillInBlankQuestion q = ff.formatMultipleFillInBlankQuestion(lines);
+        lc.uploadQuestion(q);
     }
 
     /**
-     * Pareses CLI arguments for supported flags
+     * Recursively processes directories for exam files, sends every file to be interpreted
+     * into a collection of question objects, and finally uploads this collection to the
+     * database.
      */
-    private static void ParseFlags(String[] args) throws Exception {
-        for(String flag : args) {
-            if(flag.contains("help")) {
-                ShowHelpText();
-                return;
+    private static void ProcessFiles(String FileName, LynxConnector Database){
+        try {
+            File directory = new File(FileName);
+            if (directory.isDirectory()) {
+                String[] fileList = directory.list();
+                for (String x : fileList) {
+                    ProcessFiles(FileName+"/"+x, Database);
+                }
+            } else {
+                ArrayList<String> fileContents = RetrieveFileText(FileName);
+                String[] fileTypeTokens = FileName.split("\\.");
+                String fileType = fileTypeTokens[fileTypeTokens.length-1];
+                ArrayList<Question> quiz = ReadFileContents(fileContents, fileType);
+                for(Question q : quiz) {
+                    Database.uploadQuestion(q);
+                }
             }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        for(String flag : args) {
-            if(flag.contains("--file")) {
-                String filePath = flag.replace("--file=", "");
-                _fileContents = RetrieveFileText(filePath);
-            }
+    }
+
+    private static ArrayList<Question> ReadFileContents(ArrayList<String> fileContents, String fileType) {
+        System.out.println("Filetype: " + fileType);
+        for(String line : fileContents) {
+            System.out.println(line);
         }
+        return new ArrayList<Question>();
     }
 
     /**
@@ -61,7 +121,7 @@ public class Main {
             throw new Exception(String.format("Invalid file path provided: '{0}'", filePath));
         }
 
-        if(!filePath.contains(".rsp")) {
+        if(!filePath.contains(".rsp") && !filePath.contains(".gift")) {
             throw new Exception("Provided filePath does not contain a .rsp file extension");
         }
 
@@ -84,16 +144,8 @@ public class Main {
         return outputList;
     }
 
-    /**
-     * Prints help text for --help flag inclusion
-     */
-    private static void ShowHelpText() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Welcome to the Bricolage File Importer! All flags are listed below:\n\n");
-        builder.append("\t--file=./RelativeUrl.txt [REQUIRED]\t\tThe file flag is required and is the relative path to" +
-                "an input file to import.\n");
-        builder.append("\t--help\t\t\t\t\t\t\t\t\tThe help flag shows all required and optional CLI flags\n");
-        String outputString = builder.toString();
-        System.out.println(outputString);
+    //For Demoing Purposes
+    private static void DemoQuestion()
+    {
     }
 }

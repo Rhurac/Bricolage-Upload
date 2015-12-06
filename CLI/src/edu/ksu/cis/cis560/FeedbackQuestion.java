@@ -1,13 +1,12 @@
-package edu.ksu.cis.cis560.Questions;
+package edu.ksu.cis.cis560;
 
-import edu.ksu.cis.cis560.TitledQuestion;
 
-public class MultipleFillInBlanksQuestion extends FillInTheBlankQuestion {
+public class FeedbackQuestion extends TitledQuestion {
     private String _correctFeedback = "";
     private String _incorrectFeedback = "";
 
-    public MultipleFillInBlanksQuestion(int number, String title, String description, String correctFeedback, String incorrectFeedback) {
-        super(number, title, description);
+    public FeedbackQuestion(int number, String title, String description, String correctFeedback, String incorrectFeedback) {
+        super(number, description, title);
         this._correctFeedback = correctFeedback;
         this._incorrectFeedback = incorrectFeedback;
     }
