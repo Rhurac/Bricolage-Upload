@@ -54,8 +54,20 @@ public class LynxConnector {
 
             // Question feedback
             if(question instanceof FeedbackQuestion) {
-                query = query.replace("{4}", "'" + ((FeedbackQuestion)question).getCorrectFeedback() + "'");
-                query = query.replace("{5}", "'" + ((FeedbackQuestion)question).getIncorrectFeedback() + "'");
+                String correctFeedback = ((FeedbackQuestion)question).getCorrectFeedback();
+                String incorrectFeedback = ((FeedbackQuestion)question).getIncorrectFeedback();
+
+                if(correctFeedback != null && correctFeedback != "null") {
+                    query = query.replace("{4}", "'" + correctFeedback + "'");
+                } else {
+                    query = query.replace("{4}", "null");
+                }
+
+                if(incorrectFeedback != null && incorrectFeedback != "null") {
+                    query = query.replace("{5}", "'" + incorrectFeedback + "'");
+                } else {
+                    query = query.replace("{5}", "null");
+                }
             } else {
                 query = query.replace("{4}", "null");
                 query = query.replace("{5}", "null");
@@ -101,7 +113,7 @@ public class LynxConnector {
             return 8;
         }
 
-        if(question instanceof MultipleFillInBlanksQuestion) {
+        if(question instanceof MultipleFillInBlankQuestion) {
             return 9;
         }
 

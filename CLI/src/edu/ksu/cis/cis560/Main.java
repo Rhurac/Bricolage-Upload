@@ -47,6 +47,32 @@ public class Main {
 //
 //        FileFormatter ff = new FileFormatter();
 //        EssayQuestion q = ff.formatEssayQuestion(lines);
+
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("Type: F");
+//        lines.add("Title: Who invented television?");
+//        lines.add("5. Who is known as the \"father of television”?");
+//        lines.add("");
+//        lines.add("a. Zworykin");
+//        lines.add("b. Vladimir Zworykin");
+//        lines.add("c. Vladimir Kosma Zworykin");
+//
+//        FileFormatter ff = new FileFormatter();
+//        FillInTheBlankQuestion q = ff.formatFillInTheBlankQuestion(lines);
+//        lc.uploadQuestion(q);
+
+        ArrayList<String> lines = new ArrayList<>();
+        lines.add("Type: FMB");
+        lines.add("Title: Multiple blanks");
+        lines.add("5. A [rose, red flower] by any other [name] would smell as [sweet, good].");
+        lines.add("");
+        lines.add("~ Correct. Well done.");
+        lines.add("");
+        lines.add("@ Incorrect. A rose by any other name would smell as sweet – or – A red flower by any other name would smell as good.");
+
+        FileFormatter ff = new FileFormatter();
+        MultipleFillInBlankQuestion q = ff.formatMultipleFillInBlankQuestion(lines);
+        lc.uploadQuestion(q);
     }
 
     /**
