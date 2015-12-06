@@ -1,9 +1,11 @@
 package edu.ksu.cis.cis560;
 
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+import com.sun.xml.internal.ws.resources.TubelineassemblyMessages;
 import edu.ksu.cis.cis560.Questions.*;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.Connection;
@@ -11,60 +13,78 @@ import java.sql.DriverManager;
 
 public class Main {
 
-    private static ArrayList<String> _fileContents = null;
-
     public static void main(String[] args) {
-        //ParseFlags(args);
-        //ReadFileContents(_fileContents);
-        ArrayList<String> fileContents = new ArrayList<String>();
-        fileContents.add("3) Who determined the exact speed of light?");
-        fileContents.add("a. Albert Einstein");
-        fileContents.add("*b) Albert Michelson");
-        fileContents.add("c) Thomas Edison");
-        fileContents.add("d. Guglielmo Marconi");
-        fileContents.add(" ");
-        fileContents.add("Type: MT");
-        fileContents.add("Title: Scientific discoveries");
-        fileContents.add(" ");
-        fileContents.add("4) Match the correct name to the discovery or theory.");
-        fileContents.add("a. Michelson-Morely = Speed of light");
-        fileContents.add("b. Einstein = Theory of Relativity");
-        fileContents.add("c. Marconi = radio waves");
-        fileContents.add("");
-        fileContents.add("Type: E");
-        fileContents.add("Title: Michelson-Morely experiment");
-        fileContents.add(        " ");
-        fileContents.add("4) How is the Michelson-Morely experiment related to Albert Einstein’s theory of relativity?");
-        fileContents.add(" ");
-        fileContents.add("If you are importing an essay question into an Exam file, you can supply an answer two different ways. First, you may provide an answer immediately after the question wording, beginning the answer with “a.” or “a)” (without the quotes).");
-        QuestionSeperator qs = new QuestionSeperator();
-        qs.seperateRespondusQuestionsByType(fileContents);
-    }
+        //String fileName = RetrieveFileText(args[0]);
+        String fileName = "src/edu/ksu/cis/cis560/Tests";
+        LynxConnector lc = new LynxConnector();
+        //ProcessFiles(fileName, lc);
 
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("3) Who determined the exact speed of light?");
+//        lines.add("a. Albert Einstein");
+//        lines.add("*b) Albert Michelson");
+//        lines.add("c) Thomas Edison");
+//        lines.add("d. Guglielmo Marconi");
+//
+//        FileFormatter ff = new FileFormatter();
+//        MultiChoiceQuestion q = ff.formatMultiChoiceQuestion(lines);
+//
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("3) Albert Michelson determined the exact speed of light?");
+//        lines.add("");
+//        lines.add("*a) True");
+//        lines.add("b) False");
+//
+//        FileFormatter ff = new FileFormatter();
+//        TrueFalseQuestion q = ff.formatTrueFalseQuestion(lines);
 
-    private static void ReadFileContents(ArrayList<String> fileContents) {
-        for(String line : fileContents) {
-            System.out.println(line);
-        }
+//        ArrayList<String> lines = new ArrayList<>();
+//        lines.add("Type: E");
+//        lines.add("Title: Michelson-Morely experiment");
+//        lines.add("4) How is the Michelson-Morely experiment related to Albert Einstein’s theory of relativity?");
+//        lines.add("");
+//        lines.add("If you are importing an essay question into an Exam file, you can supply an answer two different ways. First, you may provide an answer immediately after the question wording, beginning the answer with “a.” or “a)” (without the quotes).");
+//
+//        FileFormatter ff = new FileFormatter();
+//        EssayQuestion q = ff.formatEssayQuestion(lines);
     }
 
     /**
-     * Pareses CLI arguments for supported flags
+     * Recursively processes directories for exam files, sends every file to be interpreted
+     * into a collection of question objects, and finally uploads this collection to the
+     * database.
      */
-    private static void ParseFlags(String[] args) throws Exception {
-        for(String flag : args) {
-            if(flag.contains("help")) {
-                ShowHelpText();
-                return;
+    private static void ProcessFiles(String FileName, LynxConnector Database){
+        try {
+            File directory = new File(FileName);
+            if (directory.isDirectory()) {
+                String[] fileList = directory.list();
+                for (String x : fileList) {
+                    ProcessFiles(FileName+"/"+x, Database);
+                }
+            } else {
+                ArrayList<String> fileContents = RetrieveFileText(FileName);
+                String[] fileTypeTokens = FileName.split("\\.");
+                String fileType = fileTypeTokens[fileTypeTokens.length-1];
+                ArrayList<Question> quiz = ReadFileContents(fileContents, fileType);
+                for(Question q : quiz) {
+                    Database.uploadQuestion(q);
+                }
             }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        for(String flag : args) {
-            if(flag.contains("--file")) {
-                String filePath = flag.replace("--file=", "");
-                _fileContents = RetrieveFileText(filePath);
-            }
+    }
+
+    private static ArrayList<Question> ReadFileContents(ArrayList<String> fileContents, String fileType) {
+        System.out.println("Filetype: " + fileType);
+        for(String line : fileContents) {
+            System.out.println(line);
         }
+        return new ArrayList<Question>();
     }
 
     /**
@@ -75,7 +95,7 @@ public class Main {
             throw new Exception(String.format("Invalid file path provided: '{0}'", filePath));
         }
 
-        if(!filePath.contains(".rsp")) {
+        if(!filePath.contains(".rsp") && !filePath.contains(".gift")) {
             throw new Exception("Provided filePath does not contain a .rsp file extension");
         }
 
@@ -98,16 +118,8 @@ public class Main {
         return outputList;
     }
 
-    /**
-     * Prints help text for --help flag inclusion
-     */
-    private static void ShowHelpText() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Welcome to the Bricolage File Importer! All flags are listed below:");
-        builder.append("\t--file=./RelativeUrl.txt [REQUIRED]\t\tThe file flag is required and is the relative path to" +
-                "an input file to import.");
-        builder.append("\t--help\t\t\t\t\t\t\t\t\tThe help flag shows all required and optional CLI flags");
-        String outputString = builder.toString();
-        System.out.println(outputString);
+    //For Demoing Purposes
+    private static void DemoQuestion()
+    {
     }
 }
